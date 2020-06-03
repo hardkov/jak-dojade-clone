@@ -1,0 +1,36 @@
+CREATE (linia111p1: Przystanek {przystanek: 2, godzina: time({hour: 8, minute: 40}), linia: 111})
+CREATE (linia111p2: Przystanek {przystanek: 63, godzina: time({hour: 9, minute: 8}), linia: 111})
+CREATE (linia111p3: Przystanek {przystanek: 111, godzina: time({hour: 9, minute: 20}), linia: 111})
+CREATE (linia111p4: Przystanek {przystanek: 28, godzina: time({hour: 10, minute: 0}), linia: 111})
+
+CREATE (linia58p1: Przystanek {przystanek: 2, godzina: time({hour: 10, minute: 53}), linia: 58})
+CREATE (linia58p2: Przystanek {przystanek: 63, godzina: time({hour: 11, minute: 8}), linia: 58})
+CREATE (linia58p3: Przystanek {przystanek: 34, godzina: time({hour: 11, minute: 24}), linia: 58})
+CREATE (linia58p4: Przystanek {przystanek: 8, godzina: time({hour: 12, minute: 50}), linia: 58})
+
+CREATE (linia64p1: Przystanek {przystanek: 2, godzina: time({hour: 9, minute: 12}), linia: 64})
+CREATE (linia64p2: Przystanek {przystanek: 34, godzina: time({hour: 9, minute: 40}), linia: 64})
+CREATE (linia64p3: Przystanek {przystanek: 111, godzina: time({hour: 11, minute: 6}), linia: 64})
+CREATE (linia64p4: Przystanek {przystanek: 8, godzina: time({hour: 13, minute: 5}), linia: 64})
+
+CREATE
+(linia111p1)-[:TIME {minutes: 28}]->(linia111p2),
+(linia111p2)-[:TIME {minutes: 12}]->(linia111p3),
+(linia111p3)-[:TIME {minutes: 40}]->(linia111p4),
+(linia58p1)-[:TIME {minutes: 15}]->(linia58p2),
+(linia58p2)-[:TIME {minutes: 16}]->(linia58p3),
+(linia58p3)-[:TIME {minutes: 86}]->(linia58p4),
+(linia64p1)-[:TIME {minutes: 28}]->(linia64p2),
+(linia64p2)-[:TIME {minutes: 86}]->(linia64p3),
+(linia64p3)-[:TIME {minutes: 119}]->(linia64p4),
+
+(linia111p1)-[:TIME {minutes: 32}]->(linia64p1),
+(linia64p1)-[:TIME {minutes: 101}]->(linia58p1),
+
+(linia111p2)-[:TIME {minutes: 120}]->(linia58p2),
+
+(linia111p3)-[:TIME {minutes: 106}]->(linia64p3),
+
+(linia64p2)-[:TIME {minutes: 104}]->(linia58p3),
+
+(linia58p4)-[:TIME {minutes: 15}]->(linia64p4)

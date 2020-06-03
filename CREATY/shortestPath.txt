@@ -1,0 +1,16 @@
+MATCH (start:Przystanek {linia: 111, przystanek: 2}), (end:Przystanek {linia: 58, przystanek: 8})
+CALL gds.alpha.shortestPath.stream({
+  nodeProjection: 'Przystanek',
+  relationshipProjection: {
+    TIME: {
+      type: 'TIME',
+      properties: 'minutes',
+      orientation: 'NATURAL'
+    }
+  },
+  startNode: start,
+  endNode: end,
+  relationshipWeightProperty: 'minutes'
+})
+YIELD nodeId, cost
+RETURN gds.util.asNode(nodeId).przystanek AS NrPrzystanku, gds.util.asNode(nodeId).linia AS LiniaAutobusowa, cost as CzasDojazdu
