@@ -1,3 +1,4 @@
+_____shortest path na 2 danych przystankach______
 MATCH (start:Przystanek {linia: 111, przystanek: 2}), (end:Przystanek {linia: 58, przystanek: 8})
 CALL gds.alpha.shortestPath.stream({
   nodeProjection: 'Przystanek',
@@ -14,3 +15,33 @@ CALL gds.alpha.shortestPath.stream({
 })
 YIELD nodeId, cost
 RETURN gds.util.asNode(nodeId).przystanek AS NrPrzystanku, gds.util.asNode(nodeId).linia AS LiniaAutobusowa, cost as CzasDojazdu
+
+
+____ shorest path na przystanku i dowolnym innym przystanku o numerze X_____
+
+MATCH (start:Przystanek {linia: 111, przystanek: 2}), (end:Przystanek {linia: 58, przystanek: 8})
+CALL gds.alpha.shortestPath.stream({
+  nodeProjection: 'Przystanek',
+  relationshipProjection: {
+    TIME: {
+      type: 'TIME',
+      properties: 'minutes',
+      orientation: 'NATURAL'
+    }
+  },
+  startNode: start,
+  endNode: end,
+  relationshipWeightProperty: 'minutes'
+})
+YIELD nodeId, cost
+RETURN gds.util.asNode(nodeId).przystanek AS NrPrzystanku, gds.util.asNode(nodeId).linia AS LiniaAutobusowa, cost as CzasDojazdu
+
+_____znalezienie przystanku o danym numerze i minimalnej godzinie___
+
+MATCH (p:Przystanek)
+WHERE p.godzina > time({hour: 8, minute: 10}) AND p.przystanek = 2
+RETURN p
+ORDER BY p.godzina
+LIMIT 1
+
+
