@@ -1,0 +1,8 @@
+load csv with headers from 'file:///import_nodes.txt' as csvline 
+create(s: Stop {line_stop_id: csvline.line_stop_id, stop_id: csvline.stop_id,
+stop_name: csvline.stop_name, arrival_time: csvline.arrival_time})
+
+load csv with headers from "file:///import_edges.txt" as csvline
+match (prev: Stop {line_stop_id: csvline.prev_node})
+match (next: Stop {line_stop_id: csvline.next_node})
+create (prev)-[:TIME {mintutes: csvline.minutes}]->(next)
