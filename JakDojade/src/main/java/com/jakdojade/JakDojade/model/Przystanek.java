@@ -15,8 +15,8 @@ public class Przystanek {
     @GeneratedValue
     private Long id;
     private OffsetTime godzina;
-    private Integer linia;
-    private Integer przystanek;
+    private Integer linia; //String jezeli linie sa typu 29b, a nie same numery
+    private Integer przystanek; //String jezeli przystanki maja nazwy zamiast numerow
 
     //@Relationship (type = "TIME", direction = Relationship.INCOMING)
     //private List<Przystanek> przystanekList;
