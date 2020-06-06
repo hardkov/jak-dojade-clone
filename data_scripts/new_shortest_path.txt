@@ -1,0 +1,17 @@
+MATCH (start:Stop {line_stop_id: "block_1_trip_11_service_1-stop_422_59101"}), 
+(end:Stop {line_stop_id: "block_1_trip_11_service_1-stop_1201_281201"})
+CALL gds.alpha.shortestPath.stream({
+  nodeProjection: 'Stop',
+  relationshipProjection: {
+    TIME: {
+      type: 'TIME',
+      properties: 'minutes',
+      orientation: 'NATURAL'
+    }
+  },
+  startNode: start,
+  endNode: end,
+  relationshipWeightProperty: 'minutes'
+})
+YIELD nodeId, cost
+RETURN gds.util.asNode(nodeId).stop_id AS NrPrzystanku, gds.util.asNode(nodeId).line_id AS LiniaAutobusowa, cost as CzasDojazdu
