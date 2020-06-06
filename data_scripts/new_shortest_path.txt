@@ -14,4 +14,4 @@ CALL gds.alpha.shortestPath.stream({
   relationshipWeightProperty: 'minutes'
 })
 YIELD nodeId, cost
-RETURN gds.util.asNode(nodeId).stop_id AS NrPrzystanku, gds.util.asNode(nodeId).line_id AS LiniaAutobusowa, cost as CzasDojazdu
+RETURN gds.util.asNode(nodeId).stop_name AS stop, gds.util.asNode(nodeId).line_name AS line, cost as time

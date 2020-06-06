@@ -3,7 +3,8 @@ create(s: Stop {
 line_stop_id: csvline.line_stop_id, 
 stop_id: csvline.stop_id,
 stop_name: csvline.stop_name,
-line_id: csvline.line_id, 
+line_id: csvline.line_id,
+line_name: csvline.line_name, 
 arrival_hour: toInteger(csvline.arrival_hour),
 arrival_minute: toInteger(csvline.arrival_minute)
 })
