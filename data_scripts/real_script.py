@@ -27,25 +27,52 @@ def time_diff(prev_arrival_time, next_arrival_time):
 
 
 def load_stops(filename):
-    stops = {}
+    stops_dict = {}
 
     with open(filename, 'r', encoding='utf-8') as csv_file:
         csv_stops = csv.reader(csv_file, delimiter=',')
         next(csv_stops)
 
         for row in csv_stops:
-            stops[row[0]] = row[2]
+            stops_dict[row[0]] = row[2]
 
-    return stops
+    return stops_dict
 
 
-def make_nodes_file(nodes_filename, stops_filename, stops):
+def get_lines_names(routes_filename, trips_filename):
+    lines_numbers_dict = {}
+    lines_names_dict = {}
+
+    with open(routes_filename, 'r', encoding='utf-8') as routes_file:
+        csv_routes = csv.reader(routes_file, delimiter=',')
+
+        for row in csv_routes:
+            route_id = row[0]
+            route_name = row[2]
+            
+            lines_numbers_dict[route_id] = route_name
+
+    with open(trips_filename, 'r', encoding='utf-8') as trips_file:
+        csv_trips = csv.reader(trips_file, delimiter=',')
+
+        for row in csv_trips:
+            if 'service_1' in row[0]:
+                line_id = row[0]
+                route_id = row[1]
+                destination = row[3]
+
+                lines_names_dict[line_id] = lines_numbers_dict[route_id] + ' ' + destination
+    
+    return lines_names_dict
+
+
+def make_nodes_file(nodes_filename, stops_filename, stops, line_names_dict):
     stop_lines_dict = {}
     edges = []
 
     with open(nodes_filename, 'w+') as import_file:
         import_file_writer = csv.writer(import_file, delimiter=',')
-        import_file_writer.writerow(['line_stop_id', 'stop_id', 'stop_name', 'line_id', 'arrival_hour', 'arrival_minute'])
+        import_file_writer.writerow(['line_stop_id', 'stop_id', 'stop_name', 'line_id', 'line_name', 'arrival_hour', 'arrival_minute'])
 
         with open(stops_filename) as csv_file:
             csv_stop_times = csv.reader(csv_file, delimiter=',')
@@ -58,6 +85,7 @@ def make_nodes_file(nodes_filename, stops_filename, stops):
             for row in csv_stop_times:
                 if 'service_1' in row[0]:
                     line_id = row[0]
+                    line_name = line_names_dict[line_id]
                     stop_id = row[3]
                     stop_name = stops.get(row[3])
                     arrival_time = row[1]
@@ -69,6 +97,7 @@ def make_nodes_file(nodes_filename, stops_filename, stops):
                         stop_id,
                         stop_name,
                         line_id,
+                        line_name,
                         arrival_hour,
                         arrival_minute
                     ])
@@ -143,11 +172,14 @@ def append_additional_edges(stop_lines_dict, edges, edge_filename):
 
 if __name__ == '__main__':
     # load stops ids with names
-    stops = load_stops('data/stops.txt')
+    stops_dict = load_stops('data/stops.txt')
+
+    # match line_name with line_id
+    line_names_dict = get_lines_names('data/routes.txt', 'data/trips.txt')
 
     # load bus arrival times at certain bus stop and make apropriate data structures
     stop_lines_dict, edges = make_nodes_file(
-        'data/import_nodes.txt', 'data/stop_times.txt', stops)
+        'data/import_nodes.txt', 'data/stop_times.txt', stops_dict, line_names_dict)
 
     # print edges into csv file
     make_edges_file('data/import_edges.txt', edges)
