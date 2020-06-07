@@ -16,6 +16,7 @@ public class Stop {
     private Long id;
     private Integer arrival_hour;
     private Integer arrival_minute;
+    private String stop_name;
     private String line_name;
     private String line_stop_id;
     private String line_id;
@@ -54,4 +55,6 @@ public class Stop {
     public String getStop_id() {
         return stop_id;
     }
+
+    public String getStop_name() { return stop_name; }
 }
