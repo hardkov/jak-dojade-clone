@@ -24,13 +24,16 @@ def get_shortest_path_raw(shortest_paths_data):
     print("Shortest path is too big, change the query limit")
 
 
+def parse_path(path_raw):
+    pass
+
 if __name__ == '__main__':
     # connecting to database
     uri = "bolt://localhost:7687"
     driver = GraphDatabase.driver(uri, auth=("neo4j", "admin"), encrypted=False)
     session = driver.session() 
 
-    time = input("Podaj godzine")
+    time = input("Podaj godzine: \n")
     time_hour, time_minute = parse_time(time)
 
     start_stop_name = input("Podaj nazwe przystanku startowego: \n")
@@ -51,11 +54,16 @@ if __name__ == '__main__':
     start_node_data = session.run(f"""
         match (start: Stop {{ stop_id: "{start_stop_id}" }}) 
         where start.arrival_hour > {time_hour} or (start.arrival_hour = {time_hour} and start.arrival_minute >= {time_minute}) 
-        return start.line_stop_id
+        return start.line_stop_id, start.arrival_hour, start.arrival_minute
         order by start.arrival_hour, start.arrival_minute 
         limit 1""").data()
     
     start_line_stop_id = start_node_data[0]['start.line_stop_id']
+    start_arrival_hour = start_node_data[0]['start.arrival_hour']
+    start_arrival_minute = start_node_data[0]['start.arrival_minute']
+
+    print(start_arrival_hour)
+    print(start_arrival_minute)
 
     shortest_path_cipher = ( 
         f"""
@@ -63,7 +71,7 @@ if __name__ == '__main__':
         CALL {{
             MATCH
             (end:Stop {{stop_name: "{end_stop_name}"}})
-            WHERE end.arrival_hour > 10 or (end.arrival_hour = 10 and end.arrival_minute >= 45) 
+            WHERE end.arrival_hour > {time_hour} or (end.arrival_hour = {time_hour} and end.arrival_minute >= {time_minute}) 
             RETURN end 
             ORDER BY end.arrival_hour, end.arrival_minute 
         }}
@@ -92,6 +100,8 @@ if __name__ == '__main__':
 
     shortest_path_raw = get_shortest_path_raw(shortest_paths_data)
 
-    DataFrame(shortest_path_raw)
+    print(DataFrame(shortest_path_raw))
+
+    #shortest_path = parse_path(shortest_path_raw)
 
     driver.close()
