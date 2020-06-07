@@ -44,4 +44,3 @@ RETURN p
 ORDER BY p.godzina
 LIMIT 1
 
-
