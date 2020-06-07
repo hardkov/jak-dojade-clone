@@ -27,6 +27,7 @@ def get_shortest_path_raw(shortest_paths_data):
 def parse_path(path_raw):
     pass
 
+
 if __name__ == '__main__':
     # connecting to database
     uri = "bolt://localhost:7687"
