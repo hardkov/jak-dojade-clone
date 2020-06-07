@@ -24,10 +24,6 @@ def get_shortest_path_raw(shortest_paths_data):
     print("Shortest path is too big, change the query limit")
 
 
-def parse_path(path_raw):
-    pass
-
-
 if __name__ == '__main__':
     # connecting to database
     uri = "bolt://localhost:7687"
@@ -35,9 +31,11 @@ if __name__ == '__main__':
     session = driver.session() 
 
     time = input("Podaj godzine: \n")
+    print('')
     time_hour, time_minute = parse_time(time)
 
     start_stop_name = input("Podaj nazwe przystanku startowego: \n")
+    print('')
 
     available_start_stops = session.run(f"""match 
         (s: Stop {{stop_name: '{start_stop_name}'}})
@@ -45,12 +43,15 @@ if __name__ == '__main__':
 
     for i, start_stop in enumerate(available_start_stops):
         print(f'{i} - {start_stop["s.stop_id"]}')
+    print('')
 
     start_stop_idx = int(input("Wybierz konkretny przystanek: \n"))
-
+    print('')
+    
     start_stop_id = available_start_stops[start_stop_idx]['s.stop_id']
 
     end_stop_name = input("Podaj nazwe przystanku koncowego: \n")
+    print('')
 
     start_node_data = session.run(f"""
         match (start: Stop {{ stop_id: "{start_stop_id}" }}) 
@@ -98,8 +99,8 @@ if __name__ == '__main__':
 
     shortest_path_raw = get_shortest_path_raw(shortest_paths_data)
 
+    time_diff = (start_arrival_hour - time_hour) * 60 + (start_arrival_minute - time_minute)
+    print(f'Czekasz na autobus {time_diff} minut\n')
     print(DataFrame(shortest_path_raw))
-
-    #shortest_path = parse_path(shortest_path_raw)
 
     driver.close()
