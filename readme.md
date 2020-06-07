@@ -146,8 +146,8 @@ LIMIT 50
 ![Query result 7](./ReadMeImg/query7.png)    
 Jak widzimy, za pomocą shortestPath nie możemy zwrócić pojedynczej drogi, ponieważ dajemy wiele wierzchołków wyjściowych, ale ustawiając LIMIT możemy zmniejszyć liczbę znalezionych dróg, zachowując przy tym zawsze tą najszybszą, a następnie wynik parsować z użyciem np. pythona
 
-## Skrypt pythonowy korzystający z bazy do wyszukiwania połączenia
-Na podstawie powyższych queries stworzyliśmy skrypt pythonowy korzystający z bazy danych, który na podstawie wskazanych
+## Aplikacja konsolowa korzystająca z bazy do wyszukiwania połączenia
+Na podstawie powyższych queries stworzyliśmy aplikacje konsolową w pythonie korzystającą z bazy danych, która na podstawie wskazanych
 * przystanka początkowego
 * przystanka końcowego
 * aktualnej godziny i minuty
@@ -233,7 +233,7 @@ DataFrame(shortest_path_raw)
 driver.close()
 ```
 
-## Przykładowe użycie skryptu pythonowego\
+## Przykładowe użycie aplikacji konsolowej
 ![Example python results](./ReadMeImg/python1.png)    
 
 ## Written by:
