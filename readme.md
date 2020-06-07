@@ -1,7 +1,6 @@
 # JakDojade
-
-Mini project for Database course at AGH UST - DataBases 2020  
-Technologies used:
+  
+Użyte technologie:
 * Neo4j
 * Python
 * Cypher (query language)
