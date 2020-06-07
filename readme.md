@@ -6,6 +6,14 @@ Technologies used:
 * Python
 * Cypher (query language)
 
+## Setup bazy danych
+
+1. Utworzenie nowej bazy Neo4J (jako hasło ustawić admin - można inne ale trzeba będzie później zmieniać w app.py)
+2. Do bazy dodać plugin "Graph Data Science Library" (wymagane do funkcji shortestPath)
+3. Odpalić skrypt real_script.py z folderu data_scripts
+4. Przenieść 2 wygenerowane pliki (import_edges.txt i import_nodes.txt) do folderu bazy danych /installation-[version]/import
+5. Po kolei odpalić 3 polecenia z import_ciphers.txt w Neo4JBrowser - wygeneruje to nam całe dane
+
 ## Neo4j - model danych i sposób ich przechowywania
 Żeby w prosty sposób móc przechowywać informację o przystankach, a także móc w łatwy sposób znajdywać najkrótsze połączenia między przystankami postanowiliśmy skorzystać z poniższego modelu bazy:
 ```java
