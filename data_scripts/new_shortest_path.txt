@@ -15,3 +15,31 @@ CALL gds.alpha.shortestPath.stream({
 })
 YIELD nodeId, cost
 RETURN gds.util.asNode(nodeId).stop_name AS stop, gds.util.asNode(nodeId).line_name AS line, cost as time
+
+
+MATCH (start:Stop {line_stop_id: "block_285_trip_14_service_1-stop_108_14101"}) 
+
+call {
+Match
+(end:Stop {stop_name: "Miasteczko Studenckie AGH"})
+where end.arrival_hour > 10 or (end.arrival_hour = 10 and end.arrival_minute >= 45)
+return end
+order by end.arrival_hour, end.arrival_minute
+}
+
+CALL gds.alpha.shortestPath.stream({
+  nodeProjection: 'Stop',
+  relationshipProjection: {
+    TIME: {
+      type: 'TIME',
+      properties: 'minutes',
+      orientation: 'NATURAL'
+    }
+  },
+  startNode: start,
+  endNode: end,
+  relationshipWeightProperty: 'minutes'
+})
+YIELD nodeId, cost
+RETURN gds.util.asNode(nodeId).stop_name AS stop, gds.util.asNode(nodeId).line_name AS line, cost as time
+limit 100
