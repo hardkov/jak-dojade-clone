@@ -225,8 +225,8 @@ DataFrame(shortest_path_raw)
 driver.close()
 ```
 
-## Przykładowe użycie skryptu pythonowego
-
+## Przykładowe użycie skryptu pythonowego\
+![Example python results](./ReadMeImg/python1.png)    
 
 ## Written by:
 - [@what-ewer](https://github.com/what-ewer)
