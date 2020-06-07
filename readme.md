@@ -51,7 +51,7 @@ Na podstawie uzyskanej w ten sposób listy przystanków i połączeń z użyciem
 * data/import_edges.txt
 * data/import_nodes.txt
 
-Na podstawie, których tworzymy pełną bazę danych przystanków dla Krakowa
+Na podstawie, których tworzymy pełną bazę danych przystanków dla Krakowa (przystanki musieliśmy pozbawić polskich znaków - w bazie neo4j były problemy z ich kodowaniem (�))
 
 **Utworzenie wszystkich przystanków:**
 ```cypher
