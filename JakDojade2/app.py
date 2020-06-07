@@ -62,9 +62,6 @@ if __name__ == '__main__':
     start_arrival_hour = start_node_data[0]['start.arrival_hour']
     start_arrival_minute = start_node_data[0]['start.arrival_minute']
 
-    print(start_arrival_hour)
-    print(start_arrival_minute)
-
     shortest_path_cipher = ( 
         f"""
         MATCH (start:Stop {{line_stop_id: "{start_line_stop_id}"}}) 
