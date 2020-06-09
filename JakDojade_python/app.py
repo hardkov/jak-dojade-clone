@@ -1,6 +1,7 @@
 from neo4j import GraphDatabase
 from pandas import DataFrame
 
+
 def parse_time(time_str):
     hour_minutes_seconds = time_str.split(":")
     
@@ -37,9 +38,12 @@ if __name__ == '__main__':
     start_stop_name = input("Podaj nazwe przystanku startowego: \n")
     print('')
 
+
+    # Querying and listing stops with the same stop name
     available_start_stops = session.run(f"""match 
         (s: Stop {{stop_name: '{start_stop_name}'}})
         return distinct s.stop_id""").data()
+
 
     for i, start_stop in enumerate(available_start_stops):
         print(f'{i} - {start_stop["s.stop_id"]}')
@@ -53,6 +57,7 @@ if __name__ == '__main__':
     end_stop_name = input("Podaj nazwe przystanku koncowego: \n")
     print('')
 
+    # find end node with best time
     start_node_data = session.run(f"""
         match (start: Stop {{ stop_id: "{start_stop_id}" }}) 
         where start.arrival_hour > {time_hour} or (start.arrival_hour = {time_hour} and start.arrival_minute >= {time_minute}) 
