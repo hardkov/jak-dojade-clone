@@ -5,6 +5,13 @@ Użyte technologie:
 * Python
 * Cypher (query language)
 
+## Zawartość poszczególnych folderów w repozytorium
+* **data_scripts** - pliki tekstowe z danymi i skrypt *real_script.py* do utworzenia z nich csv do generacji bazy danych
+* **JakDojade_java** - dokumentacja bazy danych w javie, korzystaliśmy na początku z niej w celu stworzenia aplikacji, przerzuciliśmy się jednak na pythona, została jedynie w celu pokazania zawartości bazy i informacji o node'ach
+* **JakDojade_python** - aplikacja w pythonie (app.py) komunikująca się z bazą danych i służącą do wyszukiwania najszybszego połączenia między przystankami 
+* **algorythm_test** - testowe dane dla poprzedniego testowego modelu(m.in. linie były typu int, a nie string), korzystaliśmy z nich przy pierwszych krokach z bazą grafową w celu sprawdzenia poprawności działania naszego modelu, algorytmu i testowania działania
+* **ReadMeImg** - obrazy zawarte w ReadMe.md
+
 ## Setup bazy danych
 
 1. Utworzenie nowej bazy Neo4J (jako hasło ustawić admin - można inne ale trzeba będzie później zmieniać w app.py)
@@ -39,7 +46,7 @@ Upraszcza to znacznie problem znalezienia najkrótszej ścieżki
 
 ## Neo4j - wygenerowanie bazy przystanków
 Utworzenie bazy przystanków z Krakowa wymagało od nas uzyskania wszystkich połączeń i przystanków w Krakowie  
-Uzyskaliśmy je z użyciem serwera ftp [ftp://ztp.krakow.pl](ftp://ztp.krakow.pl/)  
+Uzyskaliśmy je z użyciem serwera ftp <ftp://ztp.krakow.pl/>   
 Uzyskaliśmy w ten sposób 4 pliki 
 * routes.txt - id trasy, nazwa trasy
 * stops.txt - id przystanków, nazwy przystanków
@@ -145,8 +152,10 @@ LIMIT 50
 ![Query result 7](./ReadMeImg/query7.png)    
 Jak widzimy, za pomocą shortestPath nie możemy zwrócić pojedynczej drogi, ponieważ dajemy wiele wierzchołków wyjściowych, ale ustawiając LIMIT możemy zmniejszyć liczbę znalezionych dróg, zachowując przy tym zawsze tą najszybszą, a następnie wynik parsować z użyciem np. pythona
 
-## Aplikacja konsolowa korzystająca z bazy do wyszukiwania połączenia
-Na podstawie powyższych queries stworzyliśmy aplikacje konsolową w pythonie korzystającą z bazy danych, która na podstawie wskazanych
+## Aplikacja konsolowa korzystająca z bazy do wyszukiwania połączenia (JakDojade_python/app.py)
+Przy wykonywaniu aplikacji zrezygnowaliśmy z korzystania z modelu w Javie (który później służył tylko jako dokumentacja zawartości bazy i node'ów)  
+Zdecydowaliśmy się na skorzystanie z pythona w celu utworzynia konsolowej aplikacji  
+Aplikacja bazuje na podstawie powyższych queries i korzystaja z bazy danych, która na podstawie wskazanych
 * przystanka początkowego
 * przystanka końcowego
 * aktualnej godziny i minuty
